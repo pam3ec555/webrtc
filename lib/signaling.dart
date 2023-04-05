@@ -44,7 +44,6 @@ class Signaling {
     registerPeerConnectionListeners();
 
     localStream?.getTracks().forEach((track) {
-      track.enableSpeakerphone(false);
       peerConnection?.addTrack(track, localStream!);
     });
 
@@ -197,8 +196,8 @@ class Signaling {
 
   void switchSpeakerphone(bool val) async {
     if (kIsWeb) return;
+    final incallManager = IncallManager();
     if (Platform.isIOS) {
-      final incallManager = IncallManager();
       if (val) {
         incallManager.setForceSpeakerphoneOn(flag: ForceSpeakerType.FORCE_ON);
       } else {
@@ -206,7 +205,7 @@ class Signaling {
       }
       incallManager.setSpeakerphoneOn(val);
     } else {
-      localStream?.getAudioTracks().first.enableSpeakerphone(val);
+      incallManager.setSpeakerphoneOn(val);
     }
   }
 

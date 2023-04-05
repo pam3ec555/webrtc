@@ -34,7 +34,7 @@ dependencies:
   flutter_incall_manager:
     git:
       url: https://github.com/pam3ec555/flutter-incall-manager
-      ref: delete_android # branch name
+      ref: master # branch name
 
 
   # The following adds the Cupertino Icons font to your application.

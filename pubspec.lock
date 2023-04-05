@@ -162,8 +162,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: delete_android
-      resolved-ref: "7a5cc4faf8368fe12d7aa7e7662b3282348ddc67"
+      ref: master
+      resolved-ref: d6599d5e9b248909b68f8dbf5aa2d59a77874401
       url: "https://github.com/pam3ec555/flutter-incall-manager"
     source: git
     version: "0.1.0"
