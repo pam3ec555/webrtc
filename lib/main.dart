@@ -1,5 +1,6 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -59,10 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _remoteRenderer.initialize();
     checkOutputs();
 
-    platform
-        .invokeMethod('getBatteryLevel')
-        .then((value) => print('RESULT = $value'));
-
     signaling.onAddRemoteStream = ((stream) {
       _remoteRenderer.srcObject = stream;
       setState(() {});
@@ -74,15 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     initIO();
 
-    ProximitySensor.events.listen((int event) {
-      final isNear = (event > 0) ? true : false;
-      print('IS NEAR = $isNear');
-    });
+    if (!kIsWeb) {
+      ProximitySensor.events.listen((int event) {
+        final isNear = (event > 0) ? true : false;
+        print('IS NEAR = $isNear');
+      });
+    }
 
     super.initState();
   }
 
   void initIO() {
+    if (kIsWeb) return;
     navigator.mediaDevices.enumerateDevices().then((list) {
       outputs.clear();
       inputs.clear();
@@ -106,6 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future checkOutputs() async {
+    if (kIsWeb) return;
     final session = await AudioSession.instance;
     session.devicesChangedEventStream.listen((event) {
       print('DEVICE ADDED = ${event.devicesAdded}');
